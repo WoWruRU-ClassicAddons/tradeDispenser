@@ -147,7 +147,7 @@
 				</Scripts>
 			</Frame>
 			<Frame name="$parentDDframe" hidden="true"  enableMouse="true">
-				<Size><AbsDimension x="150" y="268"/></Size>	
+				<Size><AbsDimension x="150" y="242"/></Size>	
 				<Anchors>
 					<Anchor point="TOPRIGHT">
 						<Offset><AbsDimension x="-18" y="0"/></Offset>
@@ -222,48 +222,34 @@
 							</Anchor>
 						</Anchors>
 					</Button>
-					<Button name="$parentSub9"  inherits="tDProfilesTemp" id="9" text="paladine" hidden="false">
+					<Button name="$parentSub9"  inherits="tDProfilesTemp" id="9" text="combo" >
 						<Anchors>
 							<Anchor point="TOP" relativeTo="$parentSub8" relativePoint="BOTTOM">
 								<Offset><AbsDimension x="0" y="0"/></Offset>
 							</Anchor>
 						</Anchors>
 					</Button>
-					<Button name="$parentSub10"  inherits="tDProfilesTemp" id="10" text="shamane" hidden="false" >
+					<Button name="$parentSub10"  inherits="tDProfilesTemp" id="10" text="melee" >
 						<Anchors>
 							<Anchor point="TOP" relativeTo="$parentSub9" relativePoint="BOTTOM">
-								<Offset><AbsDimension x="0" y="0"/></Offset>
-							</Anchor>
-						</Anchors>
-					</Button>
-					<Button name="$parentSub11"  inherits="tDProfilesTemp" id="11" text="melee" >
-						<Anchors>
-							<Anchor point="TOP" relativeTo="$parentSub10" relativePoint="BOTTOM">
 								<Offset><AbsDimension x="0" y="-5"/></Offset>
 							</Anchor>
 						</Anchors>
 					</Button>
-					<Button name="$parentSub12"  inherits="tDProfilesTemp" id="12" text="mana" >
+					<Button name="$parentSub11"  inherits="tDProfilesTemp" id="11" text="mana" >
+						<Anchors>
+							<Anchor point="TOP" relativeTo="$parentSub10" relativePoint="BOTTOM">
+								<Offset><AbsDimension x="0" y="0"/></Offset>
+							</Anchor>
+						</Anchors>
+					</Button>
+					<Button name="$parentSub12"  inherits="tDProfilesTemp" id="12" text="healer" >
 						<Anchors>
 							<Anchor point="TOP" relativeTo="$parentSub11" relativePoint="BOTTOM">
 								<Offset><AbsDimension x="0" y="0"/></Offset>
 							</Anchor>
 						</Anchors>
-					</Button>	
-					<Button name="$parentSub13"  inherits="tDProfilesTemp" id="13" text="healer" >
-						<Anchors>
-							<Anchor point="TOP" relativeTo="$parentSub12" relativePoint="BOTTOM">
-								<Offset><AbsDimension x="0" y="0"/></Offset>
-							</Anchor>
-						</Anchors>
-					</Button>	
-					<Button name="$parentSub14"  inherits="tDProfilesTemp" id="14" text="own_usage" >
-						<Anchors>
-							<Anchor point="TOP" relativeTo="$parentSub13" relativePoint="BOTTOM">
-								<Offset><AbsDimension x="0" y="-5"/></Offset>
-							</Anchor>
-						</Anchors>
-					</Button>	
+					</Button>					
 				</Frames>
 				<Scripts>
 					<OnLoad>
@@ -271,10 +257,11 @@
 					</OnLoad>
 					<OnShow>
 						local i;
-						for i=1,14 do 
+						for i=1,12 do 
 							local col = tradeDispenserProfileColors[i];
 							local f=getglobal(this:GetName().."Sub"..i);
 							f:SetTextColor(col.r, col.g, col.b);
+							f:Show();
 						end 
 					</OnShow>
 				</Scripts>
@@ -390,7 +377,7 @@
 				</Scripts>
 			</Frame>
 			<Frame name="$parentDDframe" hidden="true"  enableMouse="true">
-				<Size><AbsDimension x="150" y="80"/></Size>	
+				<Size><AbsDimension x="150" y="82"/></Size>	
 				<Anchors>
 					<Anchor point="TOPRIGHT">
 						<Offset><AbsDimension x="-18" y="0"/></Offset>
@@ -836,7 +823,7 @@
 			<OnEvent>
 				tradeDispenserOnEvent(event)
 			</OnEvent>
-			<OnShow>if (tD_CharDatas.SoundCheck) then PlaySound("igAbilityOpen") end;  tradeDispenserSetFaction();</OnShow>
+			<OnShow>PlaySound("igAbilityOpen");  tradeDispenserSetFaction();</OnShow>
 			<OnMouseDown> this:StartMoving();  </OnMouseDown>
 			<OnMouseUp>  this:StopMovingOrSizing(); </OnMouseUp>
 			<OnDragStop> this:StopMovingOrSizing(); </OnDragStop>			

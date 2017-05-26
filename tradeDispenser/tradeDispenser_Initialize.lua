@@ -18,11 +18,9 @@ if (not tradeDispenserProfileColors) then
 		[7] 	= {		["r"] = 0.5,["g"] = 0.5,["b"] = 1,		},
 		[8] 	= {		["r"] = 0.5,["g"] = 0.5,["b"] = 1,		},
 		[9] 	= {		["r"] = 0.5,["g"] = 0.5,["b"] = 1,		},
-		[10] 	= {		["r"] = 0.5,["g"] = 0.5,["b"] = 1,		},
-		[11] 	= {		["r"] = 1,	["g"] = 0.6,["b"] = 0,		},		-- groups = orange
+		[10] 	= {		["r"] = 1,	["g"] = 0.6,["b"] = 0,		},		-- groups = orange
+		[11] 	= {		["r"] = 1,	["g"] = 0.6,["b"] = 0,		},
 		[12] 	= {		["r"] = 1,	["g"] = 0.6,["b"] = 0,		},
-		[13] 	= {		["r"] = 1,	["g"] = 0.6,["b"] = 0,		},
-		[14] 	= {		["r"] = 1,	["g"] = 0,["b"] = 0,		},		-- own usage = red	
 	}
 end
 
@@ -55,7 +53,6 @@ if (not tradeDispenserChannelColors) then
 end
 
 tradeDispenser_MaxBroadcastLength = 30;		-- minutes
-tradeDispenser_IsBurningCrusade = false;
 
 
 
@@ -107,7 +104,7 @@ function tradeDispenser_OnVariablesLoaded()
 	if (tD_CharDatas.profile and tD_CharDatas.profile[1] and tD_CharDatas.profile[1]["Charge"]) then
 		local i, temp;
 		temp = {}
-		for i=1,13 do
+		for i=1,12 do
 			temp[i] = {
 				["Charge"] = 0,
 				[1] = {}, [2] = {},  [3]= {},  [4]={}, [5]={}, [6]={}
@@ -118,22 +115,6 @@ function tradeDispenser_OnVariablesLoaded()
 			[2] = temp,
 			[3] = temp,
 		}
-	end
-	if (tD_CharDatas.profile and not tD_CharDatas.profile[1][13]) then
-		tD_CharDatas.profile[1][14] = {
-				["Charge"] = 0,
-				[1] = {}, [2] = {},  [3]= {},  [4]={}, [5]={}, [6]={}
-			};
-		tD_CharDatas.profile[2][14]=tD_CharDatas.profile[1][14];
-		tD_CharDatas.profile[3][14]=tD_CharDatas.profile[1][14];
-		
-		local i=0;
-		for i=1,3 do
-			tD_CharDatas.profile[i][13]=tD_CharDatas.profile[i][12]
-			tD_CharDatas.profile[i][12]=tD_CharDatas.profile[i][11]
-			tD_CharDatas.profile[i][11]=tD_CharDatas.profile[i][10]
-			tD_CharDatas.profile[i][10]=tD_CharDatas.profile[i][9]
-		end
 	end
 	
 		
@@ -172,7 +153,7 @@ function tradeDispenser_OnVariablesLoaded()
 		local i,j;
 		for j=1,3 do
 			tD_CharDatas.profile[j]={}
-			for i=1,14 do
+			for i=1,12 do
 				tD_CharDatas.profile[j][i] = {
 					["Charge"] = 0,
 					[1] = {}, [2] = {},  [3]= {},  [4]={}, [5]={}, [6]={}
@@ -190,7 +171,7 @@ function tradeDispenser_OnVariablesLoaded()
 	--for users with Version 0.60 - 0.70
 	if (not tD_CharDatas.TimelimitCheck or not tD_CharDatas.Timelimit) then
 		tD_CharDatas.TimelimitCheck=false;
-		tD_CharDatas.Timelimit = 25;
+		tD_CharDatas.Timelimit = 20;
 		tD_CharDatas.BanlistActive=false;
 	end
 	if (not tD_CharDatas.ActualRack) then tD_CharDatas.ActualRack=1 end
@@ -216,6 +197,5 @@ function tradeDispenser_OnVariablesLoaded()
 			tD_GlobalDatas.whisper[i]=tD_Loc.whisper[i].default;
 		end
 	end
-	if (tD_CharDatas.SoundCheck==nil) then tD_CharDatas.SoundCheck=true end
 end
 	

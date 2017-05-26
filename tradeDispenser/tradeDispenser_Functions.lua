@@ -1,6 +1,8 @@
 -- LOAD LOCALISATION
 if (GetLocale()=="deDE") then
 	tradeDispenser_GetGerman()
+elseif (GetLocale()=="ruRU") then
+	tradeDispenser_GetRussian()
 elseif (GetLocale()=="zhCN") then
 	tradeDispenser_GetChinese()
 elseif (GetLocale()=="frFR") then
@@ -98,21 +100,6 @@ end
 
 
 
-function tD_isBlocked(a,b,c,d)
-	local i,j=1,1;
-	for i=1, table.getn(c) do
-		if (a==c[i]) then
-			for j=1,table.getn(d) do
-				if (b==d[j]) then return true  end
-			end
-		end
-	end
-	return false
-end
-
-
-
--- this function searches for an Item/Stack of items...   and returns the IDs, if it could be found
 function tradeDispenserCompile(slotID)
 	if (tD_Temp.Slot[slotID].itemLink == nil) then
 		return "deadlink",nil
@@ -125,21 +112,17 @@ function tradeDispenserCompile(slotID)
 	tradeDispenserVerbose(2,"tradeDispenserCompile: first round")
 
 	-- first we look for complete stacks
-	for cID=0,4 do
+	for cID=4,0,-1 do
 		tradeDispenserVerbose(3,"tradeDispenserCompile: "..GetContainerNumSlots(cID).." slots in bag "..cID)
-		if (GetContainerNumSlots(cID) > 0) then
-			for sID=1,GetContainerNumSlots(cID) do
-				if (not tD_isBlocked(cID, sID, tD_Temp.BlockedIDs[1], tD_Temp.BlockedIDs[2])) then
-					local itemLink = GetContainerItemLink(cID, sID)
-					local _, itemCount, itemLocked = GetContainerItemInfo(cID, sID)
+		for sID=1,GetContainerNumSlots(cID) do
+			local itemLink = GetContainerItemLink(cID, sID)
+			local _, itemCount, itemLocked = GetContainerItemInfo(cID, sID)
 
-					if (tradeDispenserLink(itemLink) == tradeDispenserLink(configItemLink) and not itemLocked) then
-						if (itemCount) then tradeDispenserVerbose(2,"tradeDispenserCompile: found item: itemCount: "..itemCount) end
-						if (itemCount == configItemCount) then
-							tradeDispenserVerbose(3,"tradeDispenserCompile: found in first round in "..cID.."/"..sID)
-							return cID, sID
-						end
-					end
+			if (tradeDispenserLink(itemLink) == tradeDispenserLink(configItemLink) and not itemLocked) then
+				if (itemCount) then tradeDispenserVerbose(2,"tradeDispenserCompile: found item: itemCount: "..itemCount) end
+				if (itemCount == configItemCount) then
+					tradeDispenserVerbose(3,"tradeDispenserCompile: found in first round in "..cID.."/"..sID)
+					return cID, sID
 				end
 			end
 		end
@@ -157,9 +140,9 @@ function tradeDispenserCompile(slotID)
 	
 	local stackCount = 0
 	local stackFound = false
-	for cID=0,4 do
+	for cID=4,0,-1 do
 		for sID=1,GetContainerNumSlots(cID) do
-			if ((cID ~= _cID or sID ~= _sID) and not tD_isBlocked(cID, sID, tD_Temp.BlockedIDs[1], tD_Temp.BlockedIDs[2])) then
+			if (cID ~= _cID or sID ~= _sID) then
 				local itemLink = GetContainerItemLink(cID, sID)
 				local _, itemCount, itemLocked = GetContainerItemInfo(cID, sID)
 			
@@ -197,6 +180,15 @@ end
 
 
 function tradeDispenserTradeControlChecker(tradeDispenserClient)
+	--[[local tradeDispenserClient = {};	-- used for saving the stats (guild, party, raid) of the Client;
+	local targetClass, targetEnglishClass = UnitClass("NPC");
+	tradeDispenserClient = {
+		["Class"] 	= targetEnglishClass,
+		["Level"] 	= UnitLevel("NPC"),
+		["Name"] 	= UnitName("NPC")
+	}	]]--
+	tradeDispenserClient.Class=tradeDispenserClient.EnglishClass;
+	
 	if (tradeDispenserClient.Name==nil or tradeDispenserClient.Name=="map-bug") then
 		if (WorldMapFrame:IsVisible()) then 
 			tradeDispenserVerbose(0,td_Loc.MapBugMessage);
@@ -231,8 +223,8 @@ function tradeDispenserTradeControlChecker(tradeDispenserClient)
 	if (tD_CharDatas.ClientInfos) then
 		local guildName3 = "";
 		if (guildName2~=nil) then guildName3 = "<"..guildName2.."> ";	end
-		if (not tradeDispenserClient.Class) then targetClass="" end
-		DEFAULT_CHAT_FRAME:AddMessage(tD_Loc.Opposite.." "..tradeDispenserClient.Name.." "..guildName3.." -  "..tradeDispenserClient.Class.." Level "..tradeDispenserClient.Level,1,1,0);
+		if (not targetClass) then targetClass="Unknown" end
+		DEFAULT_CHAT_FRAME:AddMessage(tD_Loc.Opposite.." "..tradeDispenserClient.Name.." "..guildName3.." -  "..targetClass.." Level "..tradeDispenserClient.Level,1,1,0);
 	else
 		tradeDispenserVerbose(1,"Clients Name = "..tradeDispenserClient.Name);
 		tradeDispenserVerbose(1,"Clients Level = "..tradeDispenserClient.Level);
@@ -258,7 +250,6 @@ function tradeDispenserTradeControlChecker(tradeDispenserClient)
 		return false; 
 	end
 	
-	tradeDispenserClient.Class=tradeDispenserClient.EnglishClass;
 
 	local trades=tradeDispenserClientTrades(tradeDispenserClient.Name);
 	if (trades>=1 and trades+1>tD_CharDatas.RegisterValue) then 
@@ -366,15 +357,15 @@ function tradeDispenserCompileProfile()
 	local i;
 	tD_Temp.tradeCharge = 0;
 	local getprofile = {
-		["WARRIOR"] = {	[1]=2, [2]=11},
-		["ROGUE"]	= { [1]=3, [2]=11},
-		["HUNTER"]	= { [1]=4, [2]=12},
-		["WARLOCK"]	= { [1]=5, [2]=12},
-		["MAGE"]	= { [1]=6, [2]=12},
-		["DRUID"]	= { [1]=7, [2]=13},
-		["PRIEST"]	= { [1]=8, [2]=13},
-		["PALADIN"] = { [1]=9, [2]=13},
-		["SHAMAN"]  = { [1]=10, [2]=13}
+		["WARRIOR"] = {	[1]=2, [2]=10},
+		["ROGUE"]	= { [1]=3, [2]=10},
+		["HUNTER"]	= { [1]=4, [2]=11},
+		["WARLOCK"]	= { [1]=5, [2]=11},
+		["MAGE"]	= { [1]=6, [2]=11},
+		["DRUID"]	= { [1]=7, [2]=12},
+		["PRIEST"]	= { [1]=8, [2]=12},
+		["PALADIN"] = { [1]=9, [2]=12},
+		["SHAMAN"]  = { [1]=9, [2]=12}
 	};
 	tD_Temp.Slot={
 		[1]={}, [2]={}, [3]={}, [4]={}, [5]={}, [6]={} 

@@ -17,6 +17,7 @@ end
 function tradeDispenser_Eventhandler()
 	if (tD_Temp.isEnabled) then
 		tradeDispenserVerbose(1,"Gonna activate some events");
+		--tradeDispenser:RegisterEvent("TRADE_SHOW")			-- used to activate the automated trade
 		tradeDispenser:RegisterEvent("TRADE_CLOSED")
 		tradeDispenser:RegisterEvent("TRADE_ACCEPT_UPDATE")   -- used, if the opposite player changes the items -> re-accept
 		tradeDispenser:RegisterEvent("UI_ERROR_MESSAGE")
@@ -25,6 +26,7 @@ function tradeDispenser_Eventhandler()
 		tD_Temp.Countdown=-1;		
 	else
 		tradeDispenserVerbose(1,"Gonna deactivate some events");
+		--tradeDispenser:UnregisterEvent("TRADE_SHOW")			-- used to activate the automated trade
 		tradeDispenser:UnregisterEvent("TRADE_CLOSED")
 		tradeDispenser:UnregisterEvent("TRADE_ACCEPT_UPDATE")   -- used, if the opposite player changes the items -> re-accept
 		tradeDispenser:UnregisterEvent("UI_ERROR_MESSAGE")
@@ -35,23 +37,15 @@ function tradeDispenser_Eventhandler()
 end
 
 
-function tradeDispenserSetFaction() 	-- sets the "paladine" or "shamane" to the profiles...damn burning crusade...
+function tradeDispenserSetFaction() 
+	--tradeDispenserVerbose(0,"Players Faction is: "..UnitFactionGroup("player"));
 	if (tradeDispenserProfileDDframe) then
-		if (tradeDispenser_IsBurningCrusade) then 
-			tradeDispenserProfileDDframe:SetHeight(285)
-		else
-			tradeDispenserProfileDDframe:SetHeight(268)
-			if (UnitFactionGroup("player")=="Alliance") then
-				tradeDispenserProfileDDframeSub10:Hide();
-				tradeDispenserProfileDDframeSub11:ClearAllPoints()
-				tradeDispenserProfileDDframeSub11:SetPoint("TOP", tradeDispenserProfileDDframeSub9, "BOTTOM" , 0, -5)
-			else
-				tradeDispenserProfileDDframeSub9:Hide();
-				tradeDispenserProfileDDframeSub10:ClearAllPoints()
-				tradeDispenserProfileDDframeSub10:SetPoint("TOP", tradeDispenserProfileDDframeSub8, "BOTTOM" , 0, 0)
-			end
-		end
+		tradeDispenserProfileDDframeSub9:SetText(tD_Loc.profile[UnitFactionGroup("player")]);
 	end
+	if (tD_CharDatas.ActualProfile==9) then
+		tradeDispenserProfileDDTitleLbL:SetText(tD_Loc.profile[UnitFactionGroup("player")]);
+	end
+	
 end
 
 
@@ -66,6 +60,11 @@ function tradeDispenserOnEvent(event)
 			tradeDispenserBanlistName:SetText(UnitName("target"));
 		end
 	end
+	
+	--[[if (event=="TRADE_SHOW" and (tD_Temp.isEnabled or tD_CharDatas.ClientInfos) and WorldMapFrame:IsVisible()) then
+		ToggleWorldMap();
+		tradeDispenserVerbose(1, " Closed the Map to avoid bugs. Sorry");
+	end]]--
 		
 	if (event == "TRADE_SHOW" and (not tD_Temp.isEnabled) and tD_CharDatas.ClientInfos and UnitName("NPC")~=nil) then
 		local targetClass, targetEnglishClass = UnitClass("NPC");
@@ -94,9 +93,8 @@ function tradeDispenserOnEvent(event)
 
 
 	if (event == "TRADE_SHOW" and tD_Temp.isEnabled and tD_Temp.InitiateTrade==nil) then
-		tradeDispenser_GetBlockedItems_ForOwnUsage();			-- found in SLAVE_FRAME
 		if (CursorHasItem()) then   PutItemInBackpack()  end	-- if the player's got an item on the cursor, tD's not running correctly
-		if (tD_CharDatas.SoundCheck) then PlaySound("LEVELUPSOUND") end
+		PlaySound("LEVELUPSOUND");
 		tD_Temp.Target = {};
 		if (UnitName("NPC")==nil) then 
 			tD_Temp.Target.Name="map-bug";
@@ -272,12 +270,6 @@ function tradeDispenserUpdate()
 	if (tD_CharDatas.profile and tD_CharDatas.profile[tD_CharDatas.ActualRack] and tmp and tD_CharDatas.profile[tD_CharDatas.ActualRack][tmp].Charge) then
 		MoneyInputFrame_SetCopper(tradeDispenserMoneyFrame, tD_CharDatas.profile[tD_CharDatas.ActualRack][tmp].Charge)
 	end
-	if (tmp==14) then
-		tradeDispenserMoneyLbL:Hide();		tradeDispenserMoneyFrame:Hide();
-	else
-		tradeDispenserMoneyLbL:Show();		tradeDispenserMoneyFrame:Show();
-	end
-	
 	
 	local s = 1
 	if (tD_CharDatas.ActualRack) then

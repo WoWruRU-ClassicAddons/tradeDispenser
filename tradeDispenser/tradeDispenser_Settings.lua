@@ -49,9 +49,6 @@ function tradeDispenserSettings_OnUpdate()
 			tradeDispenserSettingsTimelimitSlider:Hide();
 		end
 	end
-	if (tradeDispenserSettingsSoundCheck) then
-		tradeDispenserSettingsSoundCheck:SetChecked(tD_CharDatas.SoundCheck);
-	end
 end
 
 
@@ -82,7 +79,7 @@ end
 
 
 function tradeDispenser_ChannelUpdate()
-	tradeDispenserSettingsChannelDDTitleLbL:SetText(strupper( tradeDispenserChannelColors[tD_CharDatas.ChannelID].text ));
+	tradeDispenserSettingsChannelDDTitleLbL:SetText(tradeDispenserChannelColors[tD_CharDatas.ChannelID].text);
 	local col = tradeDispenserChannelColors[tD_CharDatas.ChannelID];
 	tradeDispenserSettingsChannelDDTitleLbL:SetTextColor(col.r, col.g, col.b);
 end

@@ -44,14 +44,12 @@ function tradeDispenserSlaveOnUpdate()
 	if (tD_Temp.timeSlice > 0) then 	return end
 	
 	if (tD_Temp.tradeState == "populate") then
-		-- PUT  ITEMS  INTO  THE  TRADE-FRAME
 		tD_Temp.timeSlice = LagTimer
 		tradeDispenserVerbose(1,"tradeDispenserSlaveOnUpdate: populate")
-			
+		
 		if (tD_Temp.Slot[tD_Temp.tradeData.slotID]) then
 			if (tD_Temp.tradeData.containerLocation == nil) then
 				tradeDispenserVerbose(3,"Compile Item "..tD_Temp.tradeData.slotID)
-				
 				local cID, sID = tradeDispenserCompile(tD_Temp.tradeData.slotID)
 				
 				if (cID == "deadlink") then
@@ -62,7 +60,7 @@ function tradeDispenserSlaveOnUpdate()
 					tD_Temp.tradeData = false
 					return
 				elseif (cID==nil) then
-					tradeDispenserMessage("WHISPER",tD_GlobalDatas.whisper[4])		-- no items left
+					tradeDispenserMessage("WHISPER",tD_GlobalDatas.whisper[4])
 					tradeDispenserMessage("SAY",tD_GlobalDatas.whisper[2])
 					tD_Temp.timeSlice = LagTimer*4
 					tD_Temp.tradeState = "accept"
@@ -169,21 +167,3 @@ function tradeDispenserStartTimelimiter()
 	tradeDispenserVerbose(2,"Countdown started: you've got "..tD_CharDatas.Timelimit.." sec to trade")
 	tD_Temp.Countdown=tD_CharDatas.Timelimit+2
 end
-
-
-function tradeDispenser_GetBlockedItems_ForOwnUsage()
-	tradeDispenserVerbose(1,"tradeDispenserGetBlockedItems: search items for own usage")
-	tD_Temp.BlockedIDs={};
-	tD_Temp.BlockedIDs[1]={};
-	tD_Temp.BlockedIDs[2]={};
-	tD_Temp.Slot=tD_CharDatas.profile[tD_CharDatas.ActualRack][14];
-	
-	local SlotID, count=0,1;
-	for SlotID=1,6 do
-		if (tD_Temp.Slot[SlotID] and tD_Temp.Slot[SlotID].itemName) then
-			tD_Temp.BlockedIDs[1][count], tD_Temp.BlockedIDs[2][count] = tradeDispenserCompile(SlotID)
-			count=count+1;
-		end
-	end
-end
-

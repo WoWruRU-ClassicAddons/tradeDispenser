@@ -225,21 +225,17 @@
 						<Size><AbsDimension x="136" y="16"/></Size>
 						<Anchors>
 							<Anchor point="TOPLEFT" relativeTo="$parentLbL" relativePoint="BOTTOMLEFT">
-								<Offset><AbsDimension x="0" y="-10"/></Offset>
+								<Offset><AbsDimension x="0" y="-3"/></Offset>
 							</Anchor>
 						</Anchors>
 						<Scripts>
 							<OnLoad>
 								tradeDispenserTradeControlLevelMinText:SetText("");
 								tradeDispenserTradeControlLevelMinHigh:SetText("60");
-								this:SetMinMaxValues(1,60);
-								if (tradeDispenser_IsBurningCrusade) then
-									tradeDispenserTradeControlLevelMinHigh:SetText("70");
-									this:SetMinMaxValues(1,70);
-								end
 								tradeDispenserTradeControlLevelMinLow:SetText("1");
 								tradeDispenserTradeControlLevelMinHigh:SetTextColor(1,0.9,0);
 								tradeDispenserTradeControlLevelMinLow:SetTextColor(1,0.9,0);
+								this:SetMinMaxValues(1,60);
 								this:SetValueStep(1);
 								this:SetValue(55);
 							</OnLoad>

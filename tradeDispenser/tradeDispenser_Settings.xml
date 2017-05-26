@@ -275,7 +275,7 @@
 				<FontString name="$parentLbL" inherits="GameFontNormal" text="Broadcast-Options:">
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset><AbsDimension x="8" y="-130"/></Offset>
+							<Offset><AbsDimension x="8" y="-135"/></Offset>
 						</Anchor>
 					</Anchors>
 				</FontString>						
@@ -485,7 +485,7 @@
 				<Size><AbsDimension x="24" y="24"/></Size>
 				<Anchors>
 					<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentSwatch">
-						<Offset><AbsDimension x="1" y="3"/></Offset>
+						<Offset><AbsDimension x="1" y="0"/></Offset>
 					</Anchor>
 				</Anchors>
 				<Layers>
@@ -516,7 +516,7 @@
 				<Size><AbsDimension x="24" y="24"/></Size>
 				<Anchors>
 					<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentOSDborder">
-						<Offset><AbsDimension x="0" y="3"/></Offset>
+						<Offset><AbsDimension x="0" y="0"/></Offset>
 					</Anchor>
 				</Anchors>
 				<Layers>
@@ -582,7 +582,7 @@
 				<Size><AbsDimension x="24" y="24"/></Size>
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentOSDCheck" relativePoint="BOTTOMLEFT">
-						<Offset><AbsDimension x="0" y="-150"/></Offset>
+						<Offset><AbsDimension x="0" y="-160"/></Offset>
 					</Anchor>
 				</Anchors>
 				<Layers>
@@ -659,46 +659,11 @@
 				</Scripts>
 			</Slider>
 			
-			<CheckButton name="$parentSoundCheck" inherits="UICheckButtonTemplate">		
-				<Size><AbsDimension x="24" y="24"/></Size>
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parentBroadcastCheck" relativePoint="BOTTOMLEFT">
-						<Offset><AbsDimension x="0" y="-26"/></Offset>
-					</Anchor>
-				</Anchors>
-				<Layers>
-					<Layer level="ARTWORK">
-						<FontString name="$parentLbL" inherits="GameFontNormal" text="Play Sounds">
-							<Anchors>
-								<Anchor point="LEFT" relativeTo="$parent" relativePoint="RIGHT">
-									<Offset><AbsDimension x="0" y="0"/></Offset>
-								</Anchor>
-							</Anchors>
-						</FontString>				
-					</Layer>
-				</Layers>				
-				<Scripts>
-					<OnLoad>
-						getglobal(this:GetName().."LbL"):SetText(tD_Loc.settings.PlaySounds);
-					</OnLoad>
-					<OnClick>
-						tradeDispenserPlaySound(this)
-						tD_CharDatas.SoundCheck = not tD_CharDatas.SoundCheck;
-						tradeDispenserSettings_OnUpdate();
-					</OnClick>
-					<!--<OnEnter>
-						GameTooltip:SetOwner(this:GetParent(),"ANCHOR_TOPRIGHT",200,50);
-						tradeDispenserDrawTooltip(tD_Loc.settings.TimerTooltip)				
-					</OnEnter>
-					<OnLeave>		GameTooltip:Hide();		</OnLeave>				-->	
-				</Scripts>
-			</CheckButton>
-			
 			<CheckButton name="$parentTimelimitCheck" inherits="UICheckButtonTemplate">		
 				<Size><AbsDimension x="24" y="24"/></Size>
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentBroadcastCheck" relativePoint="BOTTOMLEFT">
-						<Offset><AbsDimension x="0" y="-55"/></Offset>
+						<Offset><AbsDimension x="0" y="-30"/></Offset>
 					</Anchor>
 				</Anchors>
 				<Layers>
@@ -756,8 +721,6 @@
 						getglobal(n.."Text"):SetText("");
 						getglobal(n.."High"):SetText("60 sec");
 						getglobal(n.."Low"):SetText("10 sec");
-						getglobal(n.."High"):SetText("");
-						getglobal(n.."Low"):SetText("");
 						getglobal(n.."High"):SetTextColor(1,0.9,0);
 						getglobal(n.."Low"):SetTextColor(1,0.9,0);
 						getglobal(n.."Lbl"):SetTextColor(1,1,1);

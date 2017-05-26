@@ -1,4 +1,4 @@
-﻿TradeDispenser	Version 0.96
+﻿TradeDispenser	Version 0.95
 -------------------------------------------------------
 Author:			Silas M.	aka 	Kaboom @ Arthas (EU)
 Core: 			Tom C.  	aka 	Shag @ Arthas (EU)
@@ -60,15 +60,8 @@ Symbols:
 	* 	Other Changes
 
 	
-Version 0.96
-------------
-	+	GUI-Option to deactivate the sounds of tradeDispenser
-	+ 	new profile-type:  "self usage"
-
-	
 Version 0.95
 ------------
-	* 	TOC-Version updated to patch 1.12
 	+	Built-in a sound, which is played as soon as you get traded.  (only, if tD's enabled)
 	*	There's a bug in WoW: as soon as you get traded, you can collect some informations about the opposites client
 		with the command UnitName("NPC"). But this Function wont work, as soon as the Map is open.

@@ -1,4 +1,4 @@
-TradeDispenser	Version 0.96
+TradeDispenser	Version 0.95
 -------------------------------------------------------
 Author:		Silas M.	aka 	Kaboom @ Arthas (EU)
 Core: 		Tom C.  	aka 	Shag @ Arthas (EU)
@@ -10,8 +10,8 @@ Quelle:		http://ui.worldofwar.net/ui.php?id=2203
 BEFEHLE:
 --------
 	Prefix:
-		/tradeDispenser		Zeigt die Hilfe und wird als Prefix für weitere Optionen verwendet.
-		/td					Synonym zu /tradeDispenser
+		/tradeDispenser			Zeigt die Hilfe und wird als Prefix für weitere Optionen verwendet.
+		/td				Synonym zu /tradeDispenser
 		
 	Optionen:  (Benutze Prefix + Option, zB "/td toggle")
 		config				Schalter des ConfigCenters (Zeigen und Ausblenden)
@@ -60,14 +60,7 @@ Symbole:
 	>	ToDo  (Gemeldete Fehler, Verlangte Funktionen etc)
 	o 	Fehler behoben
 	* 	Andere Änderungen
-	
-	
-Version 0.96
-------------
-	+	GUI-Option um die sounds von TradeDispenser zu deaktivieren
-	+ 	neuer profile-typ:  "Eigenbedarf"
-	*	einige Vorbereitungen auf Burning Crusade eingebaut
-	
+
 	
 Version 0.95
 ------------
